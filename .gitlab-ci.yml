@@ -1,8 +1,19 @@
+image: docker:latest
+stages:
+  - build
+  - deploy
+
 build:
+  stage: build
+  environment:
+    name: staging
   script:
     - docker build -t registry.gitlab.com/aerses/ci-test/hello-world:latest .
     - docker push registry.gitlab.com/aerses/ci-test/hello-world:latest
 
 deploy:
+  stage: deploy
+  environment:
+    name: staging
   script:
     - helm install helm/helloworld-chart/
