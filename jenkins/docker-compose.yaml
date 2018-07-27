@@ -1,0 +1,44 @@
+---
+version: '3.5'
+
+services:
+  jenkins_base:
+    image: 'relabs/jenkins/base:latest'
+    build:
+      context: ./jenkins-base
+
+  jenkins_plugins:
+    image: 'relabs/jenkins/plugins:2.121.2-alpine'
+    build:
+      context: ./jenkins-plugins
+    restart: 'always'
+    hostname: 'jenkins_plugins'
+    volumes:
+      - 'jenkins_plugins:/usr/share/jenkins/ref/plugins'
+      - 'jenkins_warfile:/usr/share/jenkins/ref/warfile'
+      - 'jenkins_groovy:/usr/share/jenkins/ref/init.groovy.d'
+
+  jenkins_master:
+    image: 'relabs/jenkins/master:2.121.2-alpine'
+    build:
+      context: ./jenkins-master
+    restart: 'always'
+    hostname: 'jenkins_master'
+    network_mode: 'host'
+    environment:
+      - 'JENKINS_HOME=/var/jenkins_home'
+      - 'JENKINS_UI_URL=http://jenkins.relabs.io:8080'
+    volumes:
+      - 'jenkins_home:/var/jenkins_home'
+      - 'jenkins_plugins:/usr/share/jenkins/ref/plugins'
+      - 'jenkins_warfile:/usr/share/jenkins/ref/warfile'
+      - 'jenkins_groovy:/var/jenkins_home/init.groovy.d'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    depends_on:
+      - 'jenkins_plugins'
+
+volumes:
+  jenkins_home:
+  jenkins_plugins:
+  jenkins_warfile:
+  jenkins_groovy:
