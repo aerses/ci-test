@@ -1,4 +1,5 @@
 *.gpg filter=git-crypt diff=git-crypt
 *.gpg1 filter=git-crypt-testing diff=git-crypt-testing
+2.gpg4 filter=git-crypt-testing diff=git-crypt-testing
 testing/secrets/*.gpg2 filter=git-crypt diff=git-crypt
 testing/secrets/*.gpg3 filter=git-crypt diff=git-crypt
