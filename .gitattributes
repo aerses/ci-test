@@ -4,3 +4,4 @@
 5.gpg4 filter=git-crypt-testing diff=git-crypt-testing
 testing/secrets/*.gpg2 filter=git-crypt diff=git-crypt
 testing/secrets/*.gpg3 filter=git-crypt diff=git-crypt
+secrets/* filter=git-crypt-testing diff=git-crypt-testing
